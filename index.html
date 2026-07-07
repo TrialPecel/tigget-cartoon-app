@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tigget. - Aplikasi Pengatur Keuangan</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#121212">
+  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23737df0%22/><text x=%2245%22 y=%2272%22 font-family=%22'Fredoka', sans-serif%22 font-size=%2270%22 font-weight=%22700%22 fill=%22white%22 text-anchor=%22middle%22>t</text><circle cx=%2268%22 cy=%2268%22 r=%227%22 fill=%22white%22/></svg>">
+  
+  <!-- Google Fonts for Cartoonish and Modern Typo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Link -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Phone Frame Simulator for Desktop, Auto-Responsive for Mobile -->
+  <div class="phone-wrapper">
+    <div class="phone-container">
+      
+      <!-- Top Status Bar Simulator -->
+      <div class="status-bar">
+        <span class="status-time">10:57</span>
+        <div class="status-icons">
+          <span class="status-network">📶 4G+</span>
+          <span class="status-battery">🔋 44%</span>
+        </div>
+      </div>
+
+      <!-- App Header -->
+      <header class="app-header">
+        <div class="logo-area">
+          <div class="logo-circle">t.</div>
+          <h1 class="logo-text">Tigget<span>.</span></h1>
+        </div>
+        <div class="header-actions">
+          <button id="btn-stats" class="btn-icon" title="Statistik">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </button>
+          <button id="btn-add-quick" class="btn-icon btn-neon-lime" title="Tambah Cepat">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Scrollable Content Area -->
+      <main class="main-content">
+        
+        <!-- ================= TAB: BERANDA (HOME) ================= -->
+        <section id="tab-beranda" class="tab-panel active">
+          <!-- Total Balance Card -->
+          <div class="card card-balance">
+            <div class="card-inner">
+              <span class="card-title-small">Total Saldo Bersih</span>
+              <h2 id="total-balance" class="balance-amount">Rp 0</h2>
+              <p id="wallets-summary" class="card-subtitle">0 dompet aktif • Juli 2026</p>
+              
+              <!-- Floating stickers inside the card for Cartoon vibe -->
+              <span class="sticker sticker-coin">🪙</span>
+              <span class="sticker sticker-sparkle">✨</span>
+            </div>
+          </div>
+
+          <!-- Income & Expense Row -->
+          <div class="flow-row">
+            <div class="card card-flow card-income">
+              <div class="flow-icon">📈</div>
+              <div class="flow-info">
+                <span class="flow-label">Pemasukan</span>
+                <span id="income-amount" class="flow-val text-green">Rp 0</span>
+              </div>
+            </div>
+            <div class="card card-flow card-expense">
+              <div class="flow-icon">📉</div>
+              <div class="flow-info">
+                <span class="flow-label">Pengeluaran</span>
+                <span id="expense-amount" class="flow-val text-red">Rp 0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Monthly Budget Section -->
+          <div class="section-header">
+            <h3 class="section-title">Anggaran Bulan Ini</h3>
+            <button class="btn-see-all" data-target-tab="tab-budget">Semua ➔</button>
+          </div>
+          <div id="home-budget-list" class="home-budget-list">
+            <!-- Dynamic Budget Item (Picture 2 Example) -->
+            <div class="budget-progress-card">
+              <div class="budget-header">
+                <span class="budget-name">🍔 Makanan & Minuman</span>
+                <span class="budget-digits"><strong class="spent">Rp 0</strong> / Rp 1.200.000</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Transactions Section -->
+          <div class="section-header">
+            <h3 class="section-title">Transaksi Terakhir</h3>
+            <button class="btn-see-all" id="btn-see-all-transactions">Semua ➔</button>
+          </div>
+          <div id="recent-transactions-list" class="transactions-list">
+            <!-- Dynamic items loaded by app.js -->
+            <div class="empty-state">
+              <span class="empty-icon">🦖</span>
+              <p>Belum ada transaksi. Tambah satu menggunakan tombol + di kanan bawah!</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB: DOMPET (WALLETS) ================= -->
+        <section id="tab-dompet" class="tab-panel">
+          <div class="tab-header">
+            <h2 class="tab-title">Dompetku 👛</h2>
+            <button id="btn-add-wallet" class="btn-cartoon btn-neon-yellow">+ Tambah Dompet</button>
+          </div>
+          
+          <div id="wallets-grid" class="wallets-grid">
+            <!-- Dynamic wallet cards loaded by app.js -->
+          </div>
+        </section>
+
+        <!-- ================= TAB: BUDGET (BUDGETS) ================= -->
+        <section id="tab-budget" class="tab-panel">
+          <div class="tab-header">
+            <h2 class="tab-title">Anggaran Bulanan 📊</h2>
+            <button id="btn-add-budget" class="btn-cartoon btn-neon-cyan">+ Set Anggaran</button>
+          </div>
+          
+          <div id="budgets-list-detailed" class="budgets-list-detailed">
+            <!-- Dynamic budgets loaded by app.js -->
+          </div>
+        </section>
+
+        <!-- ================= TAB: TARGET (SAVING GOALS) ================= -->
+        <section id="tab-target" class="tab-panel">
+          <div class="tab-header">
+            <h2 class="tab-title">Target Tabungan 🎯</h2>
+            <button id="btn-add-target" class="btn-cartoon btn-neon-pink">+ Target Baru</button>
+          </div>
+          
+          <div id="targets-list" class="targets-list">
+            <!-- Dynamic targets loaded by app.js. Shows a cartoon path where a dino walks! -->
+          </div>
+        </section>
+
+        <!-- ================= TAB: DINO AI (CHATBOT) ================= -->
+        <section id="tab-ai" class="tab-panel">
+          <div class="ai-chat-container">
+            <!-- Dino Header -->
+            <div class="dino-chat-header">
+              <div class="dino-avatar">🦖</div>
+              <div class="dino-header-info">
+                <h3>TiggetDino AI</h3>
+                <span class="dino-status">Aktif & Galak ⚡</span>
+              </div>
+            </div>
+            
+            <!-- Chat Feed -->
+            <div id="chat-messages" class="chat-messages">
+              <div class="message message-dino">
+                <div class="msg-bubble">
+                  Halo! Aku <strong>Dino AI</strong>, dinosaurus penjaga keuanganmu. 🦖<br><br>
+                  Dino memantau transaksimu secara real-time. Jangan berani-berani jajan boba sembarangan ya, nanti Dino gigit! 💥<br><br>
+                  Mau tanya apa hari ini? Klik salah satu tombol cepat di bawah atau ketik langsung!
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Suggestions -->
+            <div class="chat-suggestions">
+              <button class="btn-suggest" data-msg="Apakah pengeluaranku aman bulan ini?">🔍 Cek Keamanan</button>
+              <button class="btn-suggest" data-msg="Kritik belanjaku hari ini!">🦖 Kritik Jajanku</button>
+              <button class="btn-suggest" data-msg="Kasih tips hemat dong Dino!">💡 Tips Hemat</button>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="chat-input-area">
+              <input type="text" id="chat-input" placeholder="Tanya Dino AI..." maxlength="100">
+              <button id="btn-send-chat" class="btn-neon-lime">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+        
+      </main>
+
+      <!-- Floating Action Button (FAB) for adding Transaction -->
+      <button id="btn-fab-add" class="btn-fab btn-neon-lime" title="Tambah Transaksi">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      </button>
+
+      <!-- Bottom Navigation Bar -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-tab="tab-beranda">
+          <div class="nav-icon">🏠</div>
+          <span class="nav-label">Beranda</span>
+        </button>
+        <button class="nav-item" data-tab="tab-dompet">
+          <div class="nav-icon">👛</div>
+          <span class="nav-label">Dompet</span>
+        </button>
+        <button class="nav-item" data-tab="tab-budget">
+          <div class="nav-icon">📊</div>
+          <span class="nav-label">Budget</span>
+        </button>
+        <button class="nav-item" data-tab="tab-target">
+          <div class="nav-icon">🎯</div>
+          <span class="nav-label">Target</span>
+        </button>
+        <button class="nav-item" data-tab="tab-ai">
+          <div class="nav-icon dino-nav-icon">🦖</div>
+          <span class="nav-label">AI</span>
+        </button>
+      </nav>
+
+    </div>
+  </div>
+
+  <!-- ================= MODALS SECTION ================= -->
+  
+  <!-- MODAL: ADD TRANSACTION -->
+  <div id="modal-transaction" class="modal-overlay">
+    <div class="modal-box card">
+      <div class="modal-header">
+        <h3 class="modal-title">Tambah Transaksi 📝</h3>
+        <button class="btn-close-modal">×</button>
+      </div>
+      <form id="form-transaction">
+        <div class="form-group">
+          <label>Jenis Transaksi</label>
+          <div class="btn-group-toggle">
+            <input type="radio" id="type-expense" name="tx-type" value="expense" checked>
+            <label for="type-expense" class="toggle-btn toggle-red">Pengeluaran 📉</label>
+            
+            <input type="radio" id="type-income" name="tx-type" value="income">
+            <label for="type-income" class="toggle-btn toggle-green">Pemasukan 📈</label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="tx-title">Nama Transaksi / Keperluan</label>
+          <input type="text" id="tx-title" placeholder="Contoh: Nasi Goreng, Gaji Bulanan" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="tx-amount">Jumlah Uang (Rp)</label>
+          <input type="number" id="tx-amount" placeholder="0" min="1" required>
+        </div>
+
+        <div class="form-group-row">
+          <div class="form-group">
+            <label for="tx-category">Kategori</label>
+            <select id="tx-category" required>
+              <option value="Makanan & Minuman">🍔 Makanan & Minuman</option>
+              <option value="Belanja">🛍️ Belanja</option>
+              <option value="Transportasi">🚗 Transportasi</option>
+              <option value="Hiburan">🎮 Hiburan</option>
+              <option value="Kesehatan">🏥 Kesehatan</option>
+              <option value="Pendidikan">🎓 Pendidikan</option>
+              <option value="Gaji & Bonus">💰 Gaji & Bonus</option>
+              <option value="Lain-lain">🎈 Lain-lain</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tx-wallet">Sumber Dompet</label>
+            <select id="tx-wallet" required>
+              <!-- Dynamic wallet options will load here -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="tx-date">Tanggal</label>
+          <input type="date" id="tx-date" required>
+        </div>
+
+        <button type="submit" class="btn-cartoon btn-neon-lime btn-submit">Simpan Transaksi 💾</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD WALLET -->
+  <div id="modal-wallet" class="modal-overlay">
+    <div class="modal-box card">
+      <div class="modal-header">
+        <h3 class="modal-title">Tambah Dompet Baru 👛</h3>
+        <button class="btn-close-modal">×</button>
+      </div>
+      <form id="form-wallet">
+        <div class="form-group">
+          <label for="wallet-name">Nama Dompet / Akun</label>
+          <input type="text" id="wallet-name" placeholder="Contoh: Dompet Utama, Kantong Jajan, Gopay" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="wallet-balance">Saldo Awal (Rp)</label>
+          <input type="number" id="wallet-balance" placeholder="0" min="0" required>
+        </div>
+
+        <div class="form-group">
+          <label>Warna Dompet (Tema Kartun)</label>
+          <div class="color-picker-group">
+            <input type="radio" name="wallet-color" id="wc-lime" value="wc-lime" checked>
+            <label for="wc-lime" class="color-dot wc-lime-dot"></label>
+
+            <input type="radio" name="wallet-color" id="wc-orange" value="wc-orange">
+            <label for="wc-orange" class="color-dot wc-orange-dot"></label>
+
+            <input type="radio" name="wallet-color" id="wc-cyan" value="wc-cyan">
+            <label for="wc-cyan" class="color-dot wc-cyan-dot"></label>
+
+            <input type="radio" name="wallet-color" id="wc-pink" value="wc-pink">
+            <label for="wc-pink" class="color-dot wc-pink-dot"></label>
+
+            <input type="radio" name="wallet-color" id="wc-yellow" value="wc-yellow">
+            <label for="wc-yellow" class="color-dot wc-yellow-dot"></label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-cartoon btn-neon-yellow btn-submit">Simpan Dompet 💾</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: SET BUDGET -->
+  <div id="modal-budget" class="modal-overlay">
+    <div class="modal-box card">
+      <div class="modal-header">
+        <h3 class="modal-title">Set Anggaran Bulanan 📊</h3>
+        <button class="btn-close-modal">×</button>
+      </div>
+      <form id="form-budget">
+        <div class="form-group">
+          <label for="budget-category">Pilih Kategori</label>
+          <select id="budget-category" required>
+            <option value="Makanan & Minuman">🍔 Makanan & Minuman</option>
+            <option value="Belanja">🛍️ Belanja</option>
+            <option value="Transportasi">🚗 Transportasi</option>
+            <option value="Hiburan">🎮 Hiburan</option>
+            <option value="Kesehatan">🏥 Kesehatan</option>
+            <option value="Pendidikan">🎓 Pendidikan</option>
+            <option value="Lain-lain">🎈 Lain-lain</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="budget-limit">Batas Anggaran (Rp)</label>
+          <input type="number" id="budget-limit" placeholder="Contoh: 1500000" min="1000" required>
+        </div>
+
+        <button type="submit" class="btn-cartoon btn-neon-cyan btn-submit">Atur Anggaran 💾</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD TARGET -->
+  <div id="modal-target" class="modal-overlay">
+    <div class="modal-box card">
+      <div class="modal-header">
+        <h3 class="modal-title">Target Tabungan Baru 🎯</h3>
+        <button class="btn-close-modal">×</button>
+      </div>
+      <form id="form-target">
+        <div class="form-group">
+          <label for="target-name">Nama Target / Keinginan</label>
+          <input type="text" id="target-name" placeholder="Contoh: Beli Sepeda Baru, PS5, Liburan" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="target-amount">Jumlah yang Dibutuhkan (Rp)</label>
+          <input type="number" id="target-amount" placeholder="0" min="1000" required>
+        </div>
+
+        <div class="form-group-row">
+          <div class="form-group">
+            <label for="target-current">Tabungan Awal (Rp)</label>
+            <input type="number" id="target-current" value="0" min="0" required>
+          </div>
+          <div class="form-group">
+            <label for="target-wallet">Sumber Dompet Alokasi</label>
+            <select id="target-wallet" required>
+              <!-- Dynamic options -->
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-cartoon btn-neon-pink btn-submit">Pasang Target 💾</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Target Top-up / Saving Allocation -->
+  <div id="modal-target-saving" class="modal-overlay">
+    <div class="modal-box card">
+      <div class="modal-header">
+        <h3 class="modal-title">Isi Tabungan Target 🎯</h3>
+        <button class="btn-close-modal">×</button>
+      </div>
+      <form id="form-target-saving">
+        <input type="hidden" id="saving-target-id">
+        <div class="form-group">
+          <label id="saving-target-name-label">Tabungan untuk: ...</label>
+        </div>
+        <div class="form-group">
+          <label for="saving-amount">Jumlah Alokasi Uang (Rp)</label>
+          <input type="number" id="saving-amount" placeholder="0" min="1" required>
+        </div>
+        <div class="form-group">
+          <label for="saving-wallet">Ambil dari Dompet</label>
+          <select id="saving-wallet" required>
+            <!-- Dynamic wallet options -->
+          </select>
+        </div>
+        <button type="submit" class="btn-cartoon btn-neon-lime btn-submit">Alokasikan Uang 💾</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Javascript File -->
+  <script src="app.js"></script>
+</body>
+</html>

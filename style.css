@@ -1,0 +1,1389 @@
+/* ==========================================================================
+   CARTOON NEO-BRUTALIST STYLING FOR BUDGGT.
+   ========================================================================== */
+
+/* Design Tokens & Theme Variables */
+:root {
+  --color-bg-dark: #121214;       /* Dark background */
+  --color-bg-card: #1c1c22;       /* Charcoal card background */
+  --color-border: #000000;        /* Bold black borders */
+  --color-brand-purple: #737df0;  /* Custom Tigget Purple */
+  
+  /* Cartoonish Neon Accents */
+  --color-neon-lime: #c6ff00;     /* Lime green (Picture 2 primary) */
+  --color-neon-orange: #ff5e36;   /* Orange (Picture 2 expenses, Picture 1 vibes) */
+  --color-neon-pink: #ff4797;     /* Bubblegum pink (Targets) */
+  --color-neon-cyan: #00f0ff;     /* Retro blue-cyan (Budgets) */
+  --color-neon-yellow: #ffee00;   /* Bright yellow (Wallets, highlights) */
+  --color-white: #ffffff;
+  --color-text-muted: #a6a6b8;
+  
+  /* Wallet Theme Colors */
+  --wc-lime: #c6ff00;
+  --wc-orange: #ff5e36;
+  --wc-cyan: #00f0ff;
+  --wc-pink: #ff4797;
+  --wc-yellow: #ffee00;
+  
+  /* Layout Configurations */
+  --phone-width: 412px;
+  --phone-height: 892px;
+  --border-width: 3px;
+  --shadow-offset: 4px;
+}
+
+/* Reset and Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #0b0b0d;
+  background-image: 
+    radial-gradient(rgba(198, 255, 0, 0.08) 2px, transparent 2px),
+    radial-gradient(rgba(255, 94, 54, 0.05) 1.5px, transparent 1.5px);
+  background-size: 32px 32px, 24px 24px;
+  background-position: 0 0, 12px 12px;
+  color: var(--color-white);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: x-hidden;
+}
+
+/* ==========================================================================
+   PHONE SIMULATOR FRAME (RESPONSIVE)
+   ========================================================================== */
+.phone-wrapper {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.phone-container {
+  width: var(--phone-width);
+  height: var(--phone-height);
+  background-color: var(--color-bg-dark);
+  border: 4px solid var(--color-border);
+  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.9);
+  border-radius: 36px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Simulated Status Bar */
+.status-bar {
+  height: 44px;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-white);
+  user-select: none;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+.status-icons {
+  display: flex;
+  gap: 8px;
+}
+
+/* App Header styling */
+.app-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: var(--border-width) solid var(--color-border);
+  background-color: var(--color-bg-dark);
+  z-index: 10;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-circle {
+  width: 38px;
+  height: 38px;
+  background-color: var(--color-brand-purple);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-white);
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0px var(--color-border);
+  transform: rotate(-5deg);
+}
+
+.logo-text {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--color-white);
+  text-shadow: 2px 2px 0px var(--color-border);
+  letter-spacing: -0.5px;
+}
+.logo-text span {
+  color: var(--color-brand-purple);
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Responsive Overrides (Matching Mobile Viewports) */
+@media (max-width: 480px) {
+  body {
+    background-color: var(--color-bg-dark);
+    background-image: none;
+  }
+  .phone-wrapper {
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+  .phone-container {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .status-bar {
+    display: none; /* Hide top bar simulator on actual mobile screens */
+  }
+}
+
+/* ==========================================================================
+   SCROLLABLE MAIN CONTENT
+   ========================================================================== */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  padding-bottom: 90px; /* Space for Bottom Nav and FAB */
+  scroll-behavior: smooth;
+}
+
+/* Hide Scrollbars */
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   CARTOON CARDS SYSTEM
+   ========================================================================== */
+.card {
+  background-color: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--color-border);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: 20px;
+}
+
+.card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--color-border);
+}
+
+/* Total Balance Card Specific */
+.card-balance {
+  background-color: #1a2212; /* Dark forest green tint */
+  border-color: var(--color-border);
+  background-image: radial-gradient(rgba(198, 255, 0, 0.15) 20%, transparent 20%);
+  background-size: 16px 16px;
+}
+
+.card-inner {
+  padding: 24px;
+  position: relative;
+}
+
+.card-title-small {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-neon-lime);
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 6px;
+  text-shadow: 1px 1px 0px var(--color-border);
+}
+
+.balance-amount {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--color-neon-lime);
+  text-shadow: 2.5px 2.5px 0px var(--color-border);
+  margin-bottom: 8px;
+}
+
+.card-subtitle {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* Sticker Overlays */
+.sticker {
+  position: absolute;
+  font-size: 26px;
+  user-select: none;
+  animation: bounce 3s infinite ease-in-out;
+}
+.sticker-coin {
+  top: 15px;
+  right: 20px;
+  transform: rotate(15deg);
+}
+.sticker-sparkle {
+  bottom: 15px;
+  right: 35px;
+  font-size: 18px;
+  animation-delay: 1.5s;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(15deg); }
+  50% { transform: translateY(-6px) rotate(12deg); }
+}
+
+/* ==========================================================================
+   INFLOW OUTFLOW CARDS
+   ========================================================================== */
+.flow-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.card-flow {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  margin-bottom: 0;
+}
+
+.flow-icon {
+  font-size: 26px;
+  background-color: #272730;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+.flow-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.flow-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.flow-val {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  text-shadow: 1px 1px 0px var(--color-border);
+}
+
+.text-green { color: var(--color-neon-lime); }
+.text-red { color: var(--color-neon-orange); }
+
+/* ==========================================================================
+   SECTIONS HEADERS
+   ========================================================================== */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 1.5px 1.5px 0px var(--color-border);
+  color: var(--color-white);
+}
+
+.btn-see-all {
+  background: none;
+  border: none;
+  color: var(--color-neon-lime);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.15s ease;
+}
+.btn-see-all:hover {
+  transform: translateX(3px);
+  color: var(--color-white);
+}
+
+/* ==========================================================================
+   BUDGET PROGRESS CARDS
+   ========================================================================== */
+.budget-progress-card {
+  background: var(--color-bg-card);
+  border: 2.5px solid var(--color-border);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 3px 3px 0 var(--color-border);
+  margin-bottom: 12px;
+}
+
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.budget-name {
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.budget-digits {
+  color: var(--color-text-muted);
+}
+.budget-digits strong {
+  color: var(--color-white);
+}
+
+/* Animated Comic-Style Hatch Progress Bars */
+.progress-bar-container {
+  height: 12px;
+  background-color: #272730;
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--color-neon-lime);
+  background-image: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.15) 50%,
+    rgba(0, 0, 0, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 16px 16px;
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Warn states for progress bars */
+.progress-warn .progress-bar-fill {
+  background-color: var(--color-neon-orange);
+}
+
+.shake-anim {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px) rotate(-0.5deg); }
+  40%, 80% { transform: translateX(4px) rotate(0.5deg); }
+}
+
+/* ==========================================================================
+   TRANSACTIONS LIST FEED
+   ========================================================================== */
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transaction-card {
+  background: var(--color-bg-card);
+  border: 2.5px solid var(--color-border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 3px 3px 0 var(--color-border);
+  transition: transform 0.15s ease;
+}
+
+.transaction-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tx-icon-wrapper {
+  font-size: 22px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background-color: #272730;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+.tx-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.tx-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.tx-meta {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.transaction-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.tx-value {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-shadow: 1px 1px 0px var(--color-border);
+}
+
+.btn-delete-tx {
+  background: none;
+  border: none;
+  color: var(--color-neon-orange);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.transaction-card:hover .btn-delete-tx,
+.transaction-card:active .btn-delete-tx {
+  opacity: 1;
+}
+
+/* Empty states */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 10px;
+  text-align: center;
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  margin: 10px 0;
+}
+.empty-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  animation: float 2.5s infinite ease-in-out;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.empty-state p {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  max-width: 250px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   BUTTONS (CARTOONISH NEO-BRUTALIST)
+   ========================================================================== */
+.btn-cartoon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--color-border);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.btn-cartoon:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-border);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.btn-neon-lime { background-color: var(--color-neon-lime); }
+.btn-neon-orange { background-color: var(--color-neon-orange); }
+.btn-neon-pink { background-color: var(--color-neon-pink); color: var(--color-white); }
+.btn-neon-cyan { background-color: var(--color-neon-cyan); }
+.btn-neon-yellow { background-color: var(--color-neon-yellow); }
+
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  background-color: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 var(--color-border);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.btn-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.btn-icon:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--color-border);
+}
+.btn-icon.btn-neon-lime {
+  color: var(--color-border);
+}
+
+/* ==========================================================================
+   TAB PANELS SYSTEM
+   ========================================================================== */
+.tab-panel {
+  display: none;
+  animation: tabFadeIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.tab-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-shadow: 2px 2px 0px var(--color-border);
+}
+
+/* ==========================================================================
+   DOMPET (WALLETS) TAB STYLING
+   ========================================================================== */
+.wallets-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.wallet-cartoon-card {
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 20px;
+  padding: 18px;
+  color: var(--color-border);
+  box-shadow: 4px 4px 0 var(--color-border);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.wallet-cartoon-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 15%, transparent 15%);
+  background-size: 12px 12px;
+  z-index: 1;
+}
+
+.wallet-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.wallet-icon {
+  font-size: 32px;
+}
+
+.wallet-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-wallet-delete {
+  background: rgba(0,0,0,0.1);
+  border: 1.5px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-border);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.btn-wallet-delete:hover {
+  background: rgba(0,0,0,0.25);
+}
+
+.wallet-info {
+  position: relative;
+  z-index: 2;
+}
+
+.wallet-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+}
+
+.wallet-name-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.wallet-balance-num {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.3);
+}
+
+/* Cartoon Themes classes */
+.wc-lime { background-color: var(--color-neon-lime); }
+.wc-orange { background-color: var(--color-neon-orange); }
+.wc-cyan { background-color: var(--color-neon-cyan); }
+.wc-pink { background-color: var(--color-neon-pink); color: #fff; }
+.wc-pink .btn-wallet-delete { color: #fff; border-color: #fff; }
+.wc-yellow { background-color: var(--color-neon-yellow); }
+
+/* ==========================================================================
+   BUDGET TAB STYLING
+   ========================================================================== */
+.budgets-list-detailed {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.budget-detailed-card {
+  background-color: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 4px 4px 0 var(--color-border);
+}
+
+.budget-detail-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.budget-detail-cat {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.btn-budget-delete {
+  background: none;
+  border: none;
+  color: var(--color-neon-orange);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.budget-detail-middle {
+  margin-bottom: 12px;
+}
+
+.budget-detail-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+.budget-detail-bottom strong {
+  color: var(--color-white);
+}
+
+/* ==========================================================================
+   TARGET (SAVING GOALS) TAB WITH WALKING DINO ANIMATION!
+   ========================================================================== */
+.targets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.target-card {
+  background-color: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 4px 4px 0 var(--color-border);
+}
+
+.target-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.target-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.target-goal-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.target-wallet-source {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.target-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-target-delete {
+  background: none;
+  border: none;
+  color: var(--color-neon-orange);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Cartoon Dino Progress Path */
+.dino-path-container {
+  height: 50px;
+  position: relative;
+  background-color: rgba(255,255,255,0.03);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+
+/* Track Line */
+.dino-path-track {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  right: 15px;
+  height: 4px;
+  background-image: repeating-linear-gradient(90deg, var(--color-neon-pink), var(--color-neon-pink) 6px, transparent 6px, transparent 12px);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Goal Flag */
+.goal-flag {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  z-index: 2;
+}
+
+/* Walking Dino Avatar */
+.walking-dino {
+  position: absolute;
+  top: 50%;
+  left: 0; /* JS will set offset percentage: calc(X% - 15px) */
+  transform: translate(0, -50%);
+  font-size: 26px;
+  transition: left 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 3;
+  animation: dinoWalk 1s infinite alternate;
+}
+
+@keyframes dinoWalk {
+  from { transform: translate(0, -52%) rotate(-5deg); }
+  to { transform: translate(0, -48%) rotate(5deg); }
+}
+
+.target-amounts {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+.target-pct {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-neon-pink);
+  text-shadow: 0.5px 0.5px 0 var(--color-border);
+}
+
+/* ==========================================================================
+   DINO AI CHAT TAB
+   ========================================================================== */
+.ai-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(var(--phone-height) - 180px); /* Fill space inside container */
+}
+
+@media (max-width: 480px) {
+  .ai-chat-container {
+    height: calc(100vh - 140px);
+  }
+}
+
+.dino-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: var(--border-width) solid var(--color-border);
+  background-color: #172217;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+
+.dino-avatar {
+  font-size: 32px;
+  background-color: var(--color-neon-lime);
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+.dino-header-info h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-neon-lime);
+}
+.dino-status {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.chat-messages::-webkit-scrollbar {
+  display: none;
+}
+
+.message {
+  display: flex;
+  width: 100%;
+}
+
+.message-dino {
+  justify-content: flex-start;
+}
+
+.message-user {
+  justify-content: flex-end;
+}
+
+.msg-bubble {
+  max-width: 80%;
+  padding: 12px 16px;
+  border: 2px solid var(--color-border);
+  border-radius: 16px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  box-shadow: 2px 2px 0 var(--color-border);
+  word-break: break-word;
+}
+
+.message-dino .msg-bubble {
+  background-color: #1c1c22;
+  color: var(--color-white);
+  border-bottom-left-radius: 2px;
+}
+
+.message-user .msg-bubble {
+  background-color: var(--color-neon-lime);
+  color: var(--color-border);
+  font-weight: 600;
+  border-bottom-right-radius: 2px;
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+/* Chat Quick Suggestions styling */
+.chat-suggestions {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 0;
+  margin-bottom: 8px;
+  scrollbar-width: none;
+}
+.chat-suggestions::-webkit-scrollbar {
+  display: none;
+}
+
+.btn-suggest {
+  flex-shrink: 0;
+  background-color: #272730;
+  color: var(--color-white);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--color-border);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn-suggest:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--color-border);
+}
+
+/* Chat Input Bar */
+.chat-input-area {
+  display: flex;
+  gap: 8px;
+  position: relative;
+}
+
+.chat-input-area input {
+  flex: 1;
+  background-color: var(--color-bg-card);
+  color: var(--color-white);
+  border: 3px solid var(--color-border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  outline: none;
+  box-shadow: 3px 3px 0 var(--color-border);
+}
+.chat-input-area input:focus {
+  border-color: var(--color-neon-lime);
+}
+
+.chat-input-area button {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  border: 3px solid var(--color-border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0 var(--color-border);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.chat-input-area button svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-border);
+}
+.chat-input-area button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-border);
+}
+
+/* ==========================================================================
+   FLOATING ACTION BUTTON (FAB)
+   ========================================================================== */
+.btn-fab {
+  position: absolute;
+  bottom: 84px;
+  right: 20px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: var(--border-width) solid var(--color-border);
+  color: var(--color-border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 4px 0 var(--color-border);
+  z-index: 99;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
+}
+
+.btn-fab svg {
+  width: 28px;
+  height: 28px;
+}
+
+.btn-fab:hover {
+  transform: scale(1.08) rotate(90deg);
+  box-shadow: 5px 5px 0 var(--color-border);
+}
+.btn-fab:active {
+  transform: scale(0.95) translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+/* ==========================================================================
+   BOTTOM NAVIGATION BAR
+   ========================================================================== */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background-color: var(--color-bg-dark);
+  border-top: var(--border-width) solid var(--color-border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 98;
+  padding: 0 8px;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: 1;
+  height: 100%;
+  transition: color 0.2s, transform 0.2s;
+  position: relative;
+  gap: 4px;
+}
+
+.nav-icon {
+  font-size: 20px;
+  transition: transform 0.2s;
+}
+
+.nav-label {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Active tab animations and highlights */
+.nav-item.active {
+  color: var(--color-neon-lime);
+}
+
+.nav-item.active .nav-icon {
+  transform: scale(1.25) translateY(-2px);
+}
+
+/* Cute animation for AI Dino Nav Icon */
+.dino-nav-icon {
+  font-size: 22px;
+}
+.nav-item.active .dino-nav-icon {
+  animation: dinoWiggle 0.5s infinite alternate;
+}
+@keyframes dinoWiggle {
+  from { transform: scale(1.25) translateY(-2px) rotate(-8deg); }
+  to { transform: scale(1.25) translateY(-2px) rotate(8deg); }
+}
+
+/* ==========================================================================
+   MODAL DIALOGS AND FORMS
+   ========================================================================== */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: none; /* JS will toggle flex */
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 360px;
+  background-color: var(--color-bg-card);
+  margin-bottom: 0;
+  padding: 24px;
+  border-radius: 24px;
+  transform: scale(0.8) rotate(-2deg);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 6px 6px 0 var(--color-border);
+}
+
+.modal-overlay.active .modal-box {
+  transform: scale(1) rotate(0deg);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modal-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  text-shadow: 1.5px 1.5px 0px var(--color-border);
+}
+
+.btn-close-modal {
+  background: #272730;
+  border: 2px solid var(--color-border);
+  color: var(--color-white);
+  font-size: 20px;
+  font-weight: 700;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1.5px 1.5px 0 var(--color-border);
+}
+.btn-close-modal:active {
+  transform: translate(1px, 1px);
+  box-shadow: 0px 0px 0 var(--color-border);
+}
+
+/* Form Styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.form-group-row {
+  display: flex;
+  gap: 12px;
+}
+.form-group-row .form-group {
+  flex: 1;
+}
+
+label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  background-color: #272730;
+  color: var(--color-white);
+  border: 2.5px solid var(--color-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+  transition: border-color 0.15s;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--color-neon-lime);
+}
+
+/* Radio buttons styled as toggles */
+.btn-group-toggle {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-group-toggle input[type="radio"] {
+  display: none;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  border: 2.5px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--color-border);
+  transition: transform 0.1s, box-shadow 0.1s, background-color 0.15s;
+  background-color: #272730;
+  color: var(--color-white);
+}
+
+.btn-group-toggle input[type="radio"]:checked + .toggle-btn {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0 var(--color-border);
+}
+
+.btn-group-toggle input[type="radio"]:checked + .toggle-red {
+  background-color: var(--color-neon-orange);
+  color: var(--color-border);
+}
+
+.btn-group-toggle input[type="radio"]:checked + .toggle-green {
+  background-color: var(--color-neon-lime);
+  color: var(--color-border);
+}
+
+/* Color Picker Group in Wallets Form */
+.color-picker-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+.color-picker-group input[type="radio"] {
+  display: none;
+}
+.color-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--color-border);
+  transition: transform 0.1s;
+}
+.color-picker-group input[type="radio"]:checked + .color-dot {
+  transform: scale(1.15) translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--color-border);
+  outline: 2px solid var(--color-white);
+}
+
+.wc-lime-dot { background-color: var(--wc-lime); }
+.wc-orange-dot { background-color: var(--wc-orange); }
+.wc-cyan-dot { background-color: var(--wc-cyan); }
+.wc-pink-dot { background-color: var(--wc-pink); }
+.wc-yellow-dot { background-color: var(--wc-yellow); }

@@ -1,0 +1,9 @@
+{
+  "appId": "com.tigget.cartoonapp",
+  "appName": "Tigget.",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}
