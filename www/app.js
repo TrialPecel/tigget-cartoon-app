@@ -617,8 +617,9 @@ const modalWallet = document.getElementById('modal-wallet');
 const modalBudget = document.getElementById('modal-budget');
 const modalTarget = document.getElementById('modal-target');
 const modalTargetSaving = document.getElementById('modal-target-saving');
+const modalChart = document.getElementById('modal-chart');
 
-const allModals = [modalTransaction, modalWallet, modalBudget, modalTarget, modalTargetSaving];
+const allModals = [modalTransaction, modalWallet, modalBudget, modalTarget, modalTargetSaving, modalChart];
 
 function closeAllModals() {
   allModals.forEach(m => m.classList.remove('active'));
@@ -642,9 +643,7 @@ allModals.forEach(modal => {
 document.getElementById('btn-fab-add').addEventListener('click', () => {
   modalTransaction.classList.add('active');
 });
-document.getElementById('btn-add-quick').addEventListener('click', () => {
-  modalTransaction.classList.add('active');
-});
+// NOTE: btn-add-quick was removed from UI per user request
 
 // Open Add Wallet modals
 document.getElementById('btn-add-wallet').addEventListener('click', () => {
@@ -813,6 +812,150 @@ document.querySelectorAll('.btn-suggest').forEach(btn => {
     chatInput.value = msg;
     handleChatSubmit();
   });
+});
+
+/* ==========================================================================
+   CHART / GRAFIK KEUANGAN ENGINE
+   ========================================================================== */
+let chartMonth = new Date().getMonth(); // 0-indexed
+let chartYear  = new Date().getFullYear();
+
+const MONTH_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+// Color palette for category breakdown dots
+const CAT_COLORS = ['#737df0','#ff5e36','#00f0ff','#ff4797','#ffee00','#c6ff00','#a78bfa','#fb923c'];
+
+function renderChart() {
+  const label = document.getElementById('chart-month-label');
+  label.textContent = `${MONTH_NAMES[chartMonth]} ${chartYear}`;
+
+  // Filter transactions for this month/year
+  const monthTx = state.transactions.filter(t => {
+    const d = new Date(t.date);
+    return d.getMonth() === chartMonth && d.getFullYear() === chartYear;
+  });
+
+  const income  = monthTx.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+  const expense = monthTx.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+
+  document.getElementById('chart-income-val').textContent  = formatRupiah(income);
+  document.getElementById('chart-expense-val').textContent = formatRupiah(expense);
+
+  // Canvas bar chart
+  const canvas = document.getElementById('chart-canvas');
+  const emptyEl = document.getElementById('chart-empty');
+  const ctx = canvas.getContext('2d');
+
+  // Get days in month
+  const daysInMonth = new Date(chartYear, chartMonth + 1, 0).getDate();
+
+  // Aggregate daily income + expense
+  const dailyIncome  = Array(daysInMonth).fill(0);
+  const dailyExpense = Array(daysInMonth).fill(0);
+
+  monthTx.forEach(t => {
+    const day = new Date(t.date).getDate() - 1; // 0-indexed
+    if (t.type === 'income')  dailyIncome[day]  += t.amount;
+    else                       dailyExpense[day] += t.amount;
+  });
+
+  const maxVal = Math.max(...dailyIncome, ...dailyExpense, 1);
+
+  if (income === 0 && expense === 0) {
+    canvas.style.display = 'none';
+    emptyEl.style.display = 'flex';
+  } else {
+    canvas.style.display = 'block';
+    emptyEl.style.display = 'none';
+
+    // Resize canvas to match its CSS size
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width  = rect.width  || 300;
+    canvas.height = rect.height || 180;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const padL = 8, padR = 8, padT = 10, padB = 20;
+    const drawW = canvas.width  - padL - padR;
+    const drawH = canvas.height - padT - padB;
+
+    const barGroupW = drawW / daysInMonth;
+    const barW = Math.max(barGroupW * 0.35, 2);
+
+    for (let i = 0; i < daysInMonth; i++) {
+      const x = padL + i * barGroupW;
+
+      // Income bar (purple)
+      const incH = (dailyIncome[i] / maxVal) * drawH;
+      ctx.fillStyle = '#737df0';
+      ctx.fillRect(x, padT + drawH - incH, barW, incH);
+
+      // Expense bar (orange)
+      const expH = (dailyExpense[i] / maxVal) * drawH;
+      ctx.fillStyle = '#ff5e36';
+      ctx.fillRect(x + barW + 1, padT + drawH - expH, barW, expH);
+    }
+
+    // X-axis line
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT + drawH);
+    ctx.lineTo(padL + drawW, padT + drawH);
+    ctx.stroke();
+  }
+
+  // Category breakdown
+  const breakdownEl = document.getElementById('chart-breakdown-list');
+  breakdownEl.innerHTML = '';
+
+  const catMap = {};
+  monthTx.filter(t => t.type === 'expense').forEach(t => {
+    catMap[t.category] = (catMap[t.category] || 0) + t.amount;
+  });
+
+  const sorted = Object.entries(catMap).sort((a, b) => b[1] - a[1]);
+  const totalExp = sorted.reduce((s, [, v]) => s + v, 0) || 1;
+
+  sorted.forEach(([cat, val], idx) => {
+    const pct = Math.round((val / totalExp) * 100);
+    const color = CAT_COLORS[idx % CAT_COLORS.length];
+
+    const item = document.createElement('div');
+    item.className = 'breakdown-item';
+    item.innerHTML = `
+      <div class="breakdown-dot" style="background:${color}"></div>
+      <span class="breakdown-cat">${cat}</span>
+      <div class="breakdown-bar-wrap">
+        <div class="breakdown-bar" style="width:${pct}%;background:${color}"></div>
+      </div>
+      <span class="breakdown-val">${formatRupiah(val)}</span>
+    `;
+    breakdownEl.appendChild(item);
+  });
+
+  if (sorted.length === 0) {
+    breakdownEl.innerHTML = '<div class="empty-state" style="border:none;padding:8px"><p>Tidak ada pengeluaran bulan ini 🎉</p></div>';
+  }
+}
+
+// Open chart modal & wire month navigation
+document.getElementById('btn-stats').addEventListener('click', () => {
+  modalChart.classList.add('active');
+  // Small delay to let the modal render before drawing canvas
+  setTimeout(renderChart, 80);
+});
+
+document.getElementById('chart-prev-month').addEventListener('click', () => {
+  chartMonth--;
+  if (chartMonth < 0) { chartMonth = 11; chartYear--; }
+  renderChart();
+});
+
+document.getElementById('chart-next-month').addEventListener('click', () => {
+  chartMonth++;
+  if (chartMonth > 11) { chartMonth = 0; chartYear++; }
+  renderChart();
 });
 
 /* ==========================================================================

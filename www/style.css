@@ -1,5 +1,5 @@
 /* ==========================================================================
-   CARTOON NEO-BRUTALIST STYLING FOR BUDGGT.
+   CARTOON NEO-BRUTALIST STYLING FOR TIGGET.
    ========================================================================== */
 
 /* Design Tokens & Theme Variables */
@@ -7,11 +7,13 @@
   --color-bg-dark: #121214;       /* Dark background */
   --color-bg-card: #1c1c22;       /* Charcoal card background */
   --color-border: #000000;        /* Bold black borders */
-  --color-brand-purple: #737df0;  /* Custom Tigget Purple */
+  --color-brand-purple: #737df0;  /* Tigget Purple – PRIMARY accent */
+  --color-purple-dark: #5a63d8;   /* Darker purple for pressed states */
+  --color-purple-glow: rgba(115,125,240,0.18); /* Purple glow for cards */
   
   /* Cartoonish Neon Accents */
-  --color-neon-lime: #c6ff00;     /* Lime green (Picture 2 primary) */
-  --color-neon-orange: #ff5e36;   /* Orange (Picture 2 expenses, Picture 1 vibes) */
+  --color-neon-lime: #c6ff00;     /* Lime green (kept for FAB / save buttons) */
+  --color-neon-orange: #ff5e36;   /* Orange (expenses) */
   --color-neon-pink: #ff4797;     /* Bubblegum pink (Targets) */
   --color-neon-cyan: #00f0ff;     /* Retro blue-cyan (Budgets) */
   --color-neon-yellow: #ffee00;   /* Bright yellow (Wallets, highlights) */
@@ -209,9 +211,9 @@ body {
 
 /* Total Balance Card Specific */
 .card-balance {
-  background-color: #1a2212; /* Dark forest green tint */
+  background-color: #18152e; /* Deep purple-dark tint */
   border-color: var(--color-border);
-  background-image: radial-gradient(rgba(198, 255, 0, 0.15) 20%, transparent 20%);
+  background-image: radial-gradient(var(--color-purple-glow) 20%, transparent 20%);
   background-size: 16px 16px;
 }
 
@@ -224,7 +226,7 @@ body {
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-neon-lime);
+  color: var(--color-brand-purple);
   letter-spacing: 1px;
   display: block;
   margin-bottom: 6px;
@@ -235,7 +237,7 @@ body {
   font-family: 'Fredoka', sans-serif;
   font-size: 38px;
   font-weight: 700;
-  color: var(--color-neon-lime);
+  color: var(--color-brand-purple);
   text-shadow: 2.5px 2.5px 0px var(--color-border);
   margin-bottom: 8px;
 }
@@ -344,7 +346,7 @@ body {
 .btn-see-all {
   background: none;
   border: none;
-  color: var(--color-neon-lime);
+  color: var(--color-brand-purple);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -399,7 +401,7 @@ body {
 
 .progress-bar-fill {
   height: 100%;
-  background-color: var(--color-neon-lime);
+  background-color: var(--color-brand-purple);
   background-image: linear-gradient(
     45deg,
     rgba(0, 0, 0, 0.15) 25%,
@@ -581,6 +583,7 @@ body {
 .btn-neon-pink { background-color: var(--color-neon-pink); color: var(--color-white); }
 .btn-neon-cyan { background-color: var(--color-neon-cyan); }
 .btn-neon-yellow { background-color: var(--color-neon-yellow); }
+.btn-neon-purple { background-color: var(--color-brand-purple); color: var(--color-white); }
 
 .btn-icon {
   width: 44px;
@@ -963,7 +966,7 @@ body {
   font-family: 'Fredoka', sans-serif;
   font-size: 15px;
   font-weight: 700;
-  color: var(--color-neon-lime);
+  color: var(--color-brand-purple);
 }
 .dino-status {
   font-size: 11px;
@@ -1073,7 +1076,7 @@ body {
   box-shadow: 3px 3px 0 var(--color-border);
 }
 .chat-input-area input:focus {
-  border-color: var(--color-neon-lime);
+  border-color: var(--color-brand-purple);
 }
 
 .chat-input-area button {
@@ -1179,7 +1182,7 @@ body {
 
 /* Active tab animations and highlights */
 .nav-item.active {
-  color: var(--color-neon-lime);
+  color: var(--color-brand-purple);
 }
 
 .nav-item.active .nav-icon {
@@ -1315,7 +1318,7 @@ select {
 
 input:focus,
 select:focus {
-  border-color: var(--color-neon-lime);
+  border-color: var(--color-brand-purple);
 }
 
 /* Radio buttons styled as toggles */
@@ -1330,7 +1333,7 @@ select:focus {
 
 .toggle-btn {
   flex: 1;
-  padding: 10px;
+  padding: 10px 6px;
   text-align: center;
   font-size: 13px;
   font-weight: 700;
@@ -1341,6 +1344,15 @@ select:focus {
   transition: transform 0.1s, box-shadow 0.1s, background-color 0.15s;
   background-color: #272730;
   color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.toggle-icon {
+  font-size: 16px;
+  line-height: 1;
 }
 
 .btn-group-toggle input[type="radio"]:checked + .toggle-btn {
@@ -1354,8 +1366,31 @@ select:focus {
 }
 
 .btn-group-toggle input[type="radio"]:checked + .toggle-green {
-  background-color: var(--color-neon-lime);
-  color: var(--color-border);
+  background-color: var(--color-brand-purple);
+  color: var(--color-white);
+}
+
+/* ============================================================
+   SCROLLABLE FORM ROW (Kategori + Sumber Dompet)
+   ============================================================ */
+.form-group-row-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 14px;
+  padding-bottom: 4px;
+}
+.form-group-row-scroll::-webkit-scrollbar {
+  display: none;
+}
+.form-group-fixed {
+  flex: 0 0 160px;  /* fixed width so both cards stay visible but scroll reveals full text */
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
 }
 
 /* Color Picker Group in Wallets Form */
@@ -1387,3 +1422,177 @@ select:focus {
 .wc-cyan-dot { background-color: var(--wc-cyan); }
 .wc-pink-dot { background-color: var(--wc-pink); }
 .wc-yellow-dot { background-color: var(--wc-yellow); }
+
+/* ==========================================================================
+   CHART MODAL
+   ========================================================================== */
+.modal-chart-box {
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.modal-chart-box::-webkit-scrollbar { display: none; }
+
+.chart-month-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.chart-month-label {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-white);
+  min-width: 100px;
+  text-align: center;
+}
+
+.btn-chart-nav {
+  background: #272730;
+  border: 2px solid var(--color-border);
+  color: var(--color-white);
+  font-size: 22px;
+  font-weight: 700;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0 var(--color-border);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn-chart-nav:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--color-border);
+}
+
+.chart-summary-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.chart-pill {
+  flex: 1;
+  border: 2.5px solid var(--color-border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 3px 3px 0 var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chart-pill-income { background-color: rgba(115,125,240,0.18); }
+.chart-pill-expense { background-color: rgba(255,94,54,0.18); }
+
+.pill-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.pill-val {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.chart-pill-income .pill-val { color: var(--color-brand-purple); }
+.chart-pill-expense .pill-val { color: var(--color-neon-orange); }
+
+.chart-area {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: #0e0e14;
+  border: 2.5px solid var(--color-border);
+  border-radius: 14px;
+  box-shadow: 3px 3px 0 var(--color-border);
+  margin-bottom: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#chart-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.chart-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+.chart-empty-state span { font-size: 32px; }
+
+.chart-breakdown-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 0 var(--color-border);
+}
+
+.chart-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.breakdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.breakdown-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1.5px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.breakdown-cat {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.breakdown-bar-wrap {
+  flex: 2;
+  height: 8px;
+  background: #272730;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1.5px solid var(--color-border);
+}
+
+.breakdown-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--color-brand-purple);
+}
+
+.breakdown-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  min-width: 72px;
+  text-align: right;
+}
+

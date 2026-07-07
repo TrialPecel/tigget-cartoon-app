@@ -37,11 +37,8 @@
           <h1 class="logo-text">Tigget<span>.</span></h1>
         </div>
         <div class="header-actions">
-          <button id="btn-stats" class="btn-icon" title="Statistik">
+          <button id="btn-stats" class="btn-icon btn-neon-purple" title="Grafik Keuangan">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-          </button>
-          <button id="btn-add-quick" class="btn-icon btn-neon-lime" title="Tambah Cepat">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           </button>
         </div>
       </header>
@@ -238,10 +235,10 @@
           <label>Jenis Transaksi</label>
           <div class="btn-group-toggle">
             <input type="radio" id="type-expense" name="tx-type" value="expense" checked>
-            <label for="type-expense" class="toggle-btn toggle-red">Pengeluaran 📉</label>
+            <label for="type-expense" class="toggle-btn toggle-red"><span class="toggle-icon">📉</span> Pengeluaran</label>
             
             <input type="radio" id="type-income" name="tx-type" value="income">
-            <label for="type-income" class="toggle-btn toggle-green">Pemasukan 📈</label>
+            <label for="type-income" class="toggle-btn toggle-green"><span class="toggle-icon">📈</span> Pemasukan</label>
           </div>
         </div>
         
@@ -255,8 +252,8 @@
           <input type="number" id="tx-amount" placeholder="0" min="1" required>
         </div>
 
-        <div class="form-group-row">
-          <div class="form-group">
+        <div class="form-group-row-scroll">
+          <div class="form-group form-group-fixed">
             <label for="tx-category">Kategori</label>
             <select id="tx-category" required>
               <option value="Makanan & Minuman">🍔 Makanan & Minuman</option>
@@ -269,7 +266,7 @@
               <option value="Lain-lain">🎈 Lain-lain</option>
             </select>
           </div>
-          <div class="form-group">
+          <div class="form-group form-group-fixed">
             <label for="tx-wallet">Sumber Dompet</label>
             <select id="tx-wallet" required>
               <!-- Dynamic wallet options will load here -->
@@ -421,6 +418,44 @@
         </div>
         <button type="submit" class="btn-cartoon btn-neon-lime btn-submit">Alokasikan Uang 💾</button>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CHART / GRAFIK -->
+  <div id="modal-chart" class="modal-overlay">
+    <div class="modal-box card modal-chart-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Grafik Keuangan 📊</h3>
+        <button class="btn-close-modal">×</button>
+      </div>
+      <!-- Month selector -->
+      <div class="chart-month-selector">
+        <button id="chart-prev-month" class="btn-chart-nav">‹</button>
+        <span id="chart-month-label" class="chart-month-label">Juli 2026</span>
+        <button id="chart-next-month" class="btn-chart-nav">›</button>
+      </div>
+      <!-- Summary pills -->
+      <div class="chart-summary-row">
+        <div class="chart-pill chart-pill-income">
+          <span class="pill-label">Pemasukan</span>
+          <span id="chart-income-val" class="pill-val">Rp 0</span>
+        </div>
+        <div class="chart-pill chart-pill-expense">
+          <span class="pill-label">Pengeluaran</span>
+          <span id="chart-expense-val" class="pill-val">Rp 0</span>
+        </div>
+      </div>
+      <!-- Bar chart canvas area -->
+      <div class="chart-area">
+        <canvas id="chart-canvas"></canvas>
+        <div id="chart-empty" class="chart-empty-state" style="display:none;">
+          <span>🦖</span>
+          <p>Belum ada data transaksi bulan ini!</p>
+        </div>
+      </div>
+      <!-- Category breakdown -->
+      <div class="chart-breakdown-title">Rincian Kategori Pengeluaran</div>
+      <div id="chart-breakdown-list" class="chart-breakdown-list"></div>
     </div>
   </div>
 
